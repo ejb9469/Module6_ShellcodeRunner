@@ -148,13 +148,6 @@ def encode():
 	new_img_name = input("Enter the name of new image(with extension) : ")
 	newimg.save(new_img_name, str(new_img_name.split(".")[1].upper()))
 
-def encode2():
-    img = Image.open("bliss.bmp", 'r')
-    data = buf
-    newimg = img.copy()
-    encode_enc(newimg, data)
-    newimg.save("bliss_enc.bmp", "bmp")
-
 # Decode the data in the image
 def decode():
 	img = input("Enter image name(with extension) : ")
@@ -181,6 +174,31 @@ def decode():
 		if (pixels[-1] % 2 != 0):
 			return data
 
+def encode2():
+    img = Image.open("bliss.bmp", 'r')
+    data = buf
+    newimg = img.copy()
+    encode_enc(newimg, data)
+    newimg.save("bliss_enc.bmp", "bmp")
+
+def decode2():
+	img = Image.open("bliss_enc.bmp", 'r')
+	imgdata = iter(img.getdata())
+	data = ""
+	while (True):
+		pixels = [value for value in imgdata.__next__()[:3] +
+								imgdata.__next__()[:3] +
+								imgdata.__next__()[:3]]
+		binstr = ""
+		for i in pixels[:8]:
+			if (i % 2 == 0):
+				binstr += "0"
+			else:
+				binstr += "1"
+		data += chr(int(binstr, 2))
+		if (pixels[-1] % 2 != 0):
+			return bytes(data, encoding="utf8").hex();
+
 # Main Function
 def main():
 	a = int(input(":: Welcome to Steganography ::\n"
@@ -195,8 +213,12 @@ def main():
 
 # Custom main function (non-interactive)
 def main2():
-    encode2()
-    
+	print("Encoding...")
+	encode2()
+	print("Decoding...")
+	data = decode2()
+	print(str(data))
+
 # Driver Code
 if __name__ == '__main__' :
 
