@@ -10,7 +10,7 @@ namespace Module6
     class StegHelper
     {
 
-        public static int lll = 299;
+        public static int lll = 692;
 
         public enum State
         {

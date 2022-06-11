@@ -1,1 +1,3 @@
 # https://systemweakness.com/av-evasion-techniques-aa0742d806db
+
+# https://redcanary.com/blog/investigating-powershell-attacks/
